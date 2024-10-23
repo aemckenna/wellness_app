@@ -1,3 +1,5 @@
+#main.py
+
 from flask import Flask, render_template, request, redirect, url_for, session, g
 import sqlite3
 import re
@@ -51,34 +53,53 @@ def login():
 @app.route('/workout/', methods=['GET', 'POST'])
 def workout():
     msg = ''
+    exercises = []
+    
     if 'loggedin' in session:
         username = session['username']
         conn = get_db_connection()
         cursor = conn.cursor()
-        
+
         cursor.execute('SELECT * FROM accounts WHERE username = ?', (username,))
         account = cursor.fetchone()
-
-        if account is None:
-            msg = 'User account not found!'
-            return render_template('workout.html', splits=[], msg=msg)
-
         user_id = account['id']
 
+        # Fetch splits for the logged-in user
         cursor.execute('SELECT * FROM splits WHERE user_id = ?', (user_id,))
         splits = cursor.fetchall()
 
         if request.method == 'POST':
-            split_name = request.form['name']
+            if 'name' in request.form:
+                # Handle creating a new split
+                split_name = request.form['name']
+                if split_name:
+                    cursor.execute('INSERT INTO splits (user_id, name) VALUES (?, ?)', (user_id, split_name))
+                    conn.commit()
+                    msg = 'Split created successfully!'
+                else:
+                    msg = 'Please provide a valid split name.'
+            elif 'workout-split' in request.form:
+                # Handle selecting a split and fetching associated exercises
+                selected_split_id = request.form['workout-split']
+                cursor.execute('SELECT * FROM exercises WHERE id IN (SELECT exercise_id FROM workout_logs WHERE split_id = ?)', (selected_split_id,))
+                exercises = cursor.fetchall()
 
-            if split_name:
-                cursor.execute('INSERT INTO splits (user_id, name) VALUES (?, ?)', (user_id, split_name))
-                conn.commit()
-                msg = 'Split created successfully!'
-            else:
-                msg = 'Please provide a valid split name.'
+            elif 'exercise_name' in request.form:
+                # Handle creating a new exercise
+                exercise_name = request.form['exercise_name']
+                split_id = request.form['split_id']  # hidden field to store split ID
+                if exercise_name and split_id:
+                    cursor.execute('INSERT INTO exercises (name) VALUES (?)', (exercise_name,))
+                    exercise_id = cursor.lastrowid
+                    # Optionally link this exercise to a workout log (if necessary)
+                    cursor.execute('INSERT INTO workout_logs (user_id, exercise_id, split_id, date, sets, reps, weight) VALUES (?, ?, ?, date("now"), 0, 0, 0)', 
+                                   (user_id, exercise_id, split_id))
+                    conn.commit()
+                    msg = 'Exercise created successfully!'
+                else:
+                    msg = 'Please provide a valid exercise name.'
 
-        return render_template('workout.html', splits=splits, msg=msg)
+        return render_template('workout.html', splits=splits, exercises=exercises, msg=msg)
     else:
         return redirect(url_for('login'))
 

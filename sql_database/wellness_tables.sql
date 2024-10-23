@@ -1,3 +1,5 @@
+-- wellness_tables.sql (Tables in wellness_app.db) --
+
 CREATE TABLE accounts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username TEXT NOT NULL,
@@ -18,22 +20,18 @@ CREATE TABLE exercises (
     notes TEXT
 );
 
-CREATE TABLE split_exercises (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    split_id INTEGER NOT NULL,
-    exercise_id INTEGER NOT NULL,
-    FOREIGN KEY (split_id) REFERENCES splits(id), 
-    FOREIGN KEY (exercise_id) REFERENCES exercises(id)
-);
-
 CREATE TABLE workout_logs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     exercise_id INTEGER NOT NULL,
+    split_id INTEGER,  
     date DATE NOT NULL,
     sets INTEGER NOT NULL,
     reps INTEGER NOT NULL,
     weight INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (exercise_id) REFERENCES exercises(id) 
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES accounts(id),
+    FOREIGN KEY (exercise_id) REFERENCES exercises(id),
+    FOREIGN KEY (split_id) REFERENCES splits(id)
 );

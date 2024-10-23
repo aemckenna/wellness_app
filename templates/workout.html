@@ -8,31 +8,51 @@
 </head>
 <body>
 
-<div class="workout-container">
-    <h1>Create Your Workout Splits</h1>
-    
-    <!-- Display existing splits -->
-    <h2>Your Splits</h2>
-    {% if splits %}
-        <ul>
-        {% for split in splits %}
-            <li>{{ split['split_name'] }}</li>
+<!-- Navigation Header -->
+<div class="header">
+    <a href="#default" class="logo">Wellness App</a>
+    <div class="header-right"></div>
+</div>
+
+<div class="workout-selection">
+    <div class="workout-selection-box">
+        <!-- Select Workout Split Form -->
+        <form method="POST" action="{{ url_for('workout') }}">
+            <h2>Select Your Workout Split</h2>
+            <select id="workout-split" class="dropdown" name="workout-split">
+                {% for split in splits %}
+                    <option value="{{ split['id'] }}">{{ split['name'] }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit">Select Split</button>
+        </form>
+
+        <!-- Create New Split Form -->
+        <form method="POST" action="{{ url_for('workout') }}">
+            <h2>Create a New Split</h2>
+            <input type="text" id="new-split-name" class="dropdown" name="name">
+            <button type="submit">Create Split</button>
+        </form>
+    </div>
+</div>
+
+<!-- Exercises Section (visible after selecting a split) -->
+<div class="exercise-section">
+    <h2>Exercises in Selected Split</h2>
+    <ul>
+        {% for exercise in exercises %}
+        <li>{{ exercise['name'] }}</li>
         {% endfor %}
-        </ul>
-    {% else %}
-        <p>You haven't created any splits yet.</p>
-    {% endif %}
-    
-    <!-- Form to create new split -->
-    <form action="/workout" method="POST">
-        <label for="split_name">Enter Split Name:</label>
-        <input type="text" id="split_name" name="name" required>
-        <button type="submit">Create Split</button>
+    </ul>
+
+    <!-- Create New Exercise Form -->
+    <h2>Add a New Exercise</h2>
+    <form method="POST" action="{{ url_for('workout') }}">
+        <label for="new-exercise-name">Exercise Name:</label>
+        <input type="text" id="new-exercise-name" name="exercise_name">
+        <input type="hidden" name="split_id" value="{{ request.form['workout-split'] }}">
+        <button type="submit">Add Exercise</button>
     </form>
-    
-    {% if msg %}
-        <p>{{ msg }}</p>
-    {% endif %}
 </div>
 
 </body>
