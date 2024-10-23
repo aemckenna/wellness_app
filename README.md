@@ -1,2 +1,0 @@
-# wellness_app
- 

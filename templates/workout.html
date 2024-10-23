@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Splits</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="workout-container">
+    <h1>Create Your Workout Splits</h1>
+    
+    <!-- Display existing splits -->
+    <h2>Your Splits</h2>
+    {% if splits %}
+        <ul>
+        {% for split in splits %}
+            <li>{{ split['split_name'] }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't created any splits yet.</p>
+    {% endif %}
+    
+    <!-- Form to create new split -->
+    <form action="/workout" method="POST">
+        <label for="split_name">Enter Split Name:</label>
+        <input type="text" id="split_name" name="name" required>
+        <button type="submit">Create Split</button>
+    </form>
+    
+    {% if msg %}
+        <p>{{ msg }}</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
