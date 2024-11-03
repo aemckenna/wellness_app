@@ -4,22 +4,26 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', sans-serif; /* Update to a modern, clean font */
+    font-family: 'Inter', sans-serif; 
+}
+
+:root {
+  --gradient: linear-gradient(to bottom right, rgb(0, 0, 0), rgb(103, 71, 53), rgb(255, 220, 145));
 }
 
 body {
-    background-color: #f7f9fc;
+    background: var(--gradient); /* Apply the gradient */
     margin: 0;
     padding: 0;
     height: 100vh;
     width: 100%;
     color: #333;
+    background-attachment: fixed; /* Ensure the background stays fixed while scrolling */
 }
 
 /* Header Styles */
 .header {
     width: 100%;
-    background-color: #1a202c;
     padding: 10px 0;
     position: fixed;
     top: 0;
@@ -28,7 +32,7 @@ body {
 }
 
 .header a {
-    float: left;
+    float: center;
     display: block;
     color: white;
     text-align: center;
@@ -39,13 +43,14 @@ body {
 }
 
 .header a.logo {
+    float: center;
     font-size: 24px;
     font-weight: bold;
     letter-spacing: 1px;
 }
 
 .header-right {
-    float: right;
+    float: center;
 }
 
 .header a:hover {
@@ -54,17 +59,16 @@ body {
 }
 
 .header a.active {
-    background-color: #38a169;
+    background-color: #3081e5;
     color: white;
 }
 
 /* Workout Selection and Split Creation Container */
 .workout-selection {
-    margin-top: 80px; /* space below the fixed header */
+    margin-top: 80px; 
     display: flex;
     justify-content: center; 
-    padding: 40px 0;
-    background-color: #edf2f7;
+    padding: 20px 20px;
 }
 
 .workout-selection-box {
@@ -72,7 +76,6 @@ body {
     flex-direction: row;
     background-color: #fff;
     padding: 40px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
     width: 900px;
     justify-content: space-between;
@@ -98,7 +101,7 @@ form {
 
 /* General Button Styling */
 button {
-    background-color: #38a169;
+    background-color: #ca5a15;
     color: white;
     padding: 12px 20px;
     border: none;
@@ -108,46 +111,75 @@ button {
     transition: background-color 0.3s ease;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+}
+
 button:hover {
-    background-color: #2f855a;
+    background-color: #ca4b15;
 }
 
 /* Login Container */
 .login-container {
+    display: flex;
+    justify-content: center; 
     margin-top: 150px;
     text-align: center;
 }
 
-.login-box {
-    background-color: white;
+.login-box { 
+    background-color: rgba(104, 100, 97, 0.282);
     padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    box-shadow: 0 0 15px 5px #aeaaa780;
     width: 400px;
+}
+
+.sign-in {
+    background-color: #ca5a15;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 0 auto; /* Center horizontally */
+    display: block; /* Ensure the button is treated as a block-level element */
+}
+
+/* Center the button inside the form container */
+.sign-in-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center elements vertically */
+    align-items: center; /* Center elements horizontally */
+    width: 100%; /* Make sure container spans full width */
+    height: auto; /* Set height if needed */
 }
 
 h1 {
     margin-bottom: 20px;
     font-size: 28px;
-    color: #2d3748;
+    color: #ffffff;
 }
 
 label {
-    display: block;
+    display: flex;
     margin-bottom: 10px;
     font-size: 14px;
-    color: #4a5568;
+    color: #ffffff;
 }
 
 input[type="text"], input[type="password"] {
-    width: 100%;
+    width: 320px;
     padding: 12px;
     margin-bottom: 20px;
     border: 1px solid #cbd5e0;
     border-radius: 6px;
     font-size: 16px;
 }
-
 /* Error and Link Styles */
 .links {
     margin-top: 20px;

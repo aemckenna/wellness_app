@@ -12,7 +12,7 @@
 
 <!-- Navigation Header -->
 <div class="header">
-    <a href="#default" class="logo">Wellness App</a>
+    <a href="#default" class="logo">BOUND</a>
     <div class="header-right">
 <!--    
       <a class="active" href="#home">Home</a>
@@ -32,8 +32,10 @@
 
             <label for="password">Your password</label>
             <input type="password" id="password" name="password" required>
-
-            <button type="submit">Sign In</button>
+            
+            <div class="sign-in-container">
+            <button class="sign-in" type="submit">Sign In</button>
+            </div>
             {% if msg %}
             <p class="error">{{ msg }}</p>
             {% endif %}
